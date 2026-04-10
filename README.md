@@ -1,4 +1,50 @@
-# REDRIVER2 (Reverse-Engineered Driver 2)
+# REDRIVER2-Mods (Reverse-Engineered Driver 2 - Custom Mods)
+
+> Fork de [OpenDriver2/REDRIVER2](https://github.com/OpenDriver2/REDRIVER2) com mods customizados de gameplay.
+
+---
+
+## Mods Adicionados
+
+### Modo Cop (tecla J)
+Permite ao player controlar o carro de policia com IA autonoma.
+
+- **Ativacao**: pressione `J` enquanto estiver em um carro de policia (modelo 3)
+- **Modo Patrulha** (`gModoCop = 1`): o carro segue as ruas automaticamente via `CivControl`, respeitando semaforos e faixas
+- **Modo Perseguicao** (`gModoCop = 2`): ativado automaticamente quando uma perseguicao civil comeca — o carro do player usa `CopControl` (PURSUER_AI) para perseguir o alvo pelas ruas
+- **Sirene automatica**: som e luz piscante da sirene ativados automaticamente no modo perseguicao
+- **Imortalidade durante chase**: dano do carro zerado a cada frame durante a perseguicao
+- **Desativacao**: pressione `J` novamente ou o botao de sair do carro
+
+---
+
+### Sistema de Perseguicao Civil (`AtualizarPerseguicaoCivil`)
+Perseguicoes autonomas de carros civis pelas ruas, independente do player.
+
+- Um carro civil aleatorio e selecionado como fugitivo (`gFugitivo`) a cada intervalo
+- Ate **60 carros de policia** proximos sao convertidos automaticamente em PURSUER_AI para perseguir o alvo
+- Carros de policia patrulhando (`CONTROL_FLAG_COP`) tambem entram na perseguicao automaticamente
+- Se um civil bater no carro do player em modo Cop, ele vira o novo fugitivo (`gInfrator`)
+- **Duracao maxima**: 60 segundos — apos isso o fugitivo some do mapa
+- **Respawn de cops distantes**: a cada 1 segundo, cops a mais de 33000 unidades do alvo sao removidos e substituidos por novos mais proximos
+- **Configuracoes de dificuldade**: durante a perseguicao, cops ficam mais rapidos e agressivos (`gCopDifficultyLevel = 2`, `gCopDesiredSpeedScale = 6144`, imortalidade ativada)
+
+---
+
+### Auto Piloto
+Controle autonomo do carro do player pelas ruas via `CivControl`.
+
+- Ativado por tecla dedicada
+- Suporta comandos de direcao manual (esquerda/direita) para influenciar o trajeto nas esquinas
+
+---
+
+### Melhorias de IA
+- Cops com alvo (`alvo`) usam calculo de velocidade otimizado baseado em `gCopDesiredSpeedScale`
+- Cops distantes do alvo sao respawnados proximos para manter a pressao na perseguicao
+- Tratamento correto do estado CIV/COP na transicao entre modos (sem corrupcao de memoria)
+
+---
 
 Game running on Windows:
 
